@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharat Explorer | Culture, Fashion, Heritage & Marketplace</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        desi: {
+                            saffron: '#FF9933',
+                            saffronGlow: '#FF8000',
+                            peacock: '#008080',
+                            neonBlue: '#00F0FF',
+                            magenta: '#FF007F',
+                            gold: '#FFD700',
+                            darkBg: '#0B0F19',
+                            cardBg: '#131B2E'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0F19;
+            color: #F3F4F6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Neon & Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(19, 27, 46, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-panel-interactive {
+            background: rgba(19, 27, 46, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-panel-interactive:hover {
+            border-color: rgba(0, 240, 255, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 240, 255, 0.15), 0 8px 10px -6px rgba(255, 0, 127, 0.1);
+        }
+
+        .neon-text-saffron {
+            text-shadow: 0 0 10px rgba(255, 153, 51, 0.5), 0 0 20px rgba(255, 153, 51, 0.3);
+        }
+
+        .neon-text-cyan {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.6), 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+
+        .neon-border-magenta {
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F293D;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00F0FF;
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#0B0F19] text-gray-100">
+
+    <!-- Ambient Background Glows -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-desi-saffron/15 rounded-full blur-[120px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-10 right-10 w-[30rem] h-[30rem] bg-desi-magenta/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
+    <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-desi-neonBlue/5 rounded-full blur-[160px] pointer-events-none z-0"></div>
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="resetFilters()">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-desi-saffron via-desi-magenta to-desi-neonBlue p-[2px] flex items-center justify-center">
+                        <div class="w-full h-full bg-desi-darkBg rounded-[10px] flex items-center justify-center">
+                            <i class="fa-solid font-bold fa-om text-desi-saffron text-xl"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-extrabold font-display bg-gradient-to-r from-desi-saffron via-white to-desi-neonBlue bg-clip-text text-transparent">
+                            BHARAT
+                        </span>
+                        <span class="text-xs tracking-widest text-desi-neonBlue uppercase block font-semibold -mt-1">
+                            Explorer
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links / Tabs -->
+                <nav class="hidden md:flex space-x-1">
+                    <button onclick="setActiveTab('explore')" id="nav-explore" class="px-4 py-2 rounded-lg text-sm font-medium transition-all text-desi-neonBlue bg-desi-neonBlue/10 border border-desi-neonBlue/30">
+                        <i class="fa-solid fa-compass mr-2"></i>Explore State
+                    </button>
+                    <button onclick="setActiveTab('styling')" id="nav-styling" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all">
+                        <i class="fa-solid fa-shirt mr-2"></i>Desi Fusion Fashion
+                    </button>
+                    <button onclick="setActiveTab('marketplace')" id="nav-marketplace" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all">
+                        <i class="fa-solid fa-store mr-2"></i>Local Artisans
+                    </button>
+                    <button onclick="setActiveTab('saved')" id="nav-saved" class="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-all relative">
+                        <i class="fa-solid fa-bookmark mr-2"></i>Saved Vault
+                        <span id="bookmark-badge" class="hidden absolute -top-1 -right-1 bg-desi-magenta text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                    </button>
+                </nav>
+
+                <!-- Actions -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="openCreateModal()" class="hidden sm:flex items-center space-x-2 bg-gradient-to-r from-desi-saffron to-desi-magenta hover:opacity-90 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-lg shadow-desi-saffron/20 transition-all">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Add Culture Story</span>
+                    </button>
+                    <button onclick="toggleAiAssistant()" class="relative group bg-gradient-to-r from-desi-neonBlue/20 to-desi-magenta/20 hover:from-desi-neonBlue/30 hover:to-desi-magenta/30 border border-desi-neonBlue/40 text-white p-2.5 rounded-xl transition-all">
+                        <i class="fa-solid fa-wand-magic-sparkles text-desi-neonBlue group-hover:rotate-12 transition-transform"></i>
+                        <span class="absolute -bottom-1 -right-1 flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-desi-neonBlue opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-desi-neonBlue"></span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Bottom Bar -->
+        <div class="md:hidden flex justify-around border-t border-white/10 bg-desi-darkBg/95 py-2 px-1">
+            <button onclick="setActiveTab('explore')" class="flex flex-col items-center py-1 text-xs text-desi-neonBlue">
+                <i class="fa-solid fa-compass text-base mb-1"></i>Explore
+            </button>
+            <button onclick="setActiveTab('styling')" class="flex flex-col items-center py-1 text-xs text-gray-400">
+                <i class="fa-solid fa-shirt text-base mb-1"></i>Style
+            </button>
+            <button onclick="setActiveTab('marketplace')" class="flex flex-col items-center py-1 text-xs text-gray-400">
+                <i class="fa-solid fa-store text-base mb-1"></i>Shops
+            </button>
+            <button onclick="setActiveTab('saved')" class="flex flex-col items-center py-1 text-xs text-gray-400">
+                <i class="fa-solid fa-bookmark text-base mb-1"></i>Saved
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+
+        <!-- Search & State Selector Banner -->
+        <section class="mb-10">
+            <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-white/10 bg-gradient-to-br from-desi-cardBg/90 via-desi-darkBg/80 to-desi-cardBg/90 shadow-2xl">
+                <div class="max-w-3xl mx-auto text-center mb-6">
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-widest text-desi-saffron bg-desi-saffron/10 border border-desi-saffron/30 mb-3">
+                        <i class="fa-solid fa-map-pin mr-1"></i> Cultural Heritage & Fusion Hub
+                    </span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight font-display text-white mb-3">
+                        Rediscover <span class="bg-gradient-to-r from-desi-saffron via-desi-gold to-desi-magenta bg-clip-text text-transparent">India’s Vibrant Heritage</span>
+                    </h1>
+                    <p class="text-gray-400 text-sm sm:text-base">
+                        Explore regional folklore, traditional garments redesigned for Gen-Z, and verified local artisan markets.
+                    </p>
+                </div>
+
+                <!-- Search Bar & Filters -->
+                <div class="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto">
+                    <div class="relative flex-grow">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search states, weaves, dishes, festivals or markets..." class="w-full bg-desi-darkBg/80 border border-white/10 rounded-2xl pl-11 pr-4 py-3.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-desi-neonBlue focus:ring-1 focus:ring-desi-neonBlue transition-all">
+                    </div>
+                    <button onclick="openCreateModal()" class="sm:hidden w-full bg-gradient-to-r from-desi-saffron to-desi-magenta text-white py-3 rounded-2xl font-semibold text-sm">
+                        <i class="fa-solid fa-plus mr-2"></i>Add Cultural Entry
+                    </button>
+                </div>
+
+                <!-- Horizontal State Scroll -->
+                <div class="mt-6 pt-6 border-t border-white/5">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Filter by State / Region</span>
+                        <button onclick="resetStateFilter()" class="text-xs text-desi-neonBlue hover:underline">Show All States</button>
+                    </div>
+                    <div id="state-pills-container" class="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+                        <!-- State Pills populated via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPLORE TAB SECTION -->
+        <section id="tab-explore" class="tab-content">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold font-display text-white flex items-center gap-2">
+                        <span>Regional Culture & Heritage</span>
+                        <span id="selected-state-label" class="text-xs bg-desi-neonBlue/10 text-desi-neonBlue border border-desi-neonBlue/30 px-2.5 py-0.5 rounded-full font-mono">All Regions</span>
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-1">Authentic regional stories, craft forms, and iconic monuments.</p>
+                </div>
+            </div>
+
+            <!-- Cards Grid -->
+            <div id="culture-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Culture Cards dynamically rendered here -->
+            </div>
+        </section>
+
+        <!-- STYLING TAB SECTION -->
+        <section id="tab-styling" class="tab-content hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold font-display text-white">Gen-Z & Traditional Desi Fusion Styling</h2>
+                <p class="text-xs text-gray-400 mt-1">How to style heritage Indian textiles into modern streetwear and formal fits.</p>
+            </div>
+
+            <div id="styling-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Styling Cards dynamically rendered here -->
+            </div>
+        </section>
+
+        <!-- MARKETPLACE TAB SECTION -->
+        <section id="tab-marketplace" class="tab-content hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold font-display text-white">Verified Local Artisans & Heritage Markets</h2>
+                <p class="text-xs text-gray-400 mt-1">Discover centuries-old bazaars and authentic craft makers across India.</p>
+            </div>
+
+            <div id="marketplace-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Marketplace Cards dynamically rendered here -->
+            </div>
+        </section>
+
+        <!-- SAVED VAULT TAB SECTION -->
+        <section id="tab-saved" class="tab-content hidden">
+            <div class="mb-6 flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-bold font-display text-white">Saved Heritage Vault</h2>
+                    <p class="text-xs text-gray-400 mt-1">Your bookmarked stories, fashion guides, and shop directories.</p>
+                </div>
+                <button onclick="clearAllBookmarks()" class="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1">
+                    <i class="fa-solid fa-trash"></i> Clear All
+                </button>
+            </div>
+
+            <div id="saved-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Bookmarked Cards dynamically rendered here -->
+            </div>
+            <div id="saved-empty-state" class="hidden text-center py-16 glass-panel rounded-3xl">
+                <i class="fa-solid fa-bookmark text-4xl text-gray-600 mb-3"></i>
+                <h3 class="text-lg font-bold text-gray-300">Your Vault is Empty</h3>
+                <p class="text-xs text-gray-500 max-w-sm mx-auto mt-1">Bookmark culture cards, fashion guides, or shops using the bookmark icon on any card.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- AI Cultural Assistant Modal / Floating Panel -->
+    <div id="ai-modal" class="fixed inset-y-0 right-0 w-full sm:w-[420px] bg-desi-darkBg/95 backdrop-blur-2xl border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col shadow-2xl">
+        <!-- AI Header -->
+        <div class="p-4 border-b border-white/10 flex items-center justify-between bg-desi-cardBg/50">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-desi-neonBlue to-desi-magenta p-[2px]">
+                    <div class="w-full h-full bg-desi-darkBg rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-robot text-desi-neonBlue text-sm"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-white font-display">Bharat AI Companion</h3>
+                    <p class="text-[10px] text-desi-neonBlue flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span> Powered by Gemini
+                    </p>
+                </div>
+            </div>
+            <button onclick="toggleAiAssistant()" class="text-gray-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Chat Container -->
+        <div id="ai-chat-messages" class="flex-grow p-4 overflow-y-auto space-y-4 text-xs">
+            <div class="glass-panel p-3.5 rounded-2xl border-desi-neonBlue/20 text-gray-300 space-y-2">
+                <p class="font-semibold text-white">Namaste! 🙏 I am your Indian Heritage & Style AI guide.</p>
+                <p>Ask me anything about:</p>
+                <ul class="list-disc list-inside text-gray-400 space-y-1">
+                    <li>Cultural etiquette & heritage sites</li>
+                    <li>How to pair authentic sarees/kurtas into modern fits</li>
+                    <li>Best street food or local artisan markets in any state</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Quick AI Suggestions -->
+        <div class="p-2 border-t border-white/5 bg-desi-cardBg/30 flex gap-1.5 overflow-x-auto no-scrollbar">
+            <button onclick="askQuickAi('Recommend a 3-day cultural itinerary for Rajasthan')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-white/5 hover:bg-white/10 text-[11px] text-gray-300 border border-white/10">
+                🏰 Rajasthan Itinerary
+            </button>
+            <button onclick="askQuickAi('How do I style a Phulkari dupatta for a casual Gen-Z outfit?')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-white/5 hover:bg-white/10 text-[11px] text-gray-300 border border-white/10">
+                ✨ Phulkari Styling
+            </button>
+            <button onclick="askQuickAi('What are famous handicrafts of Tamil Nadu?')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-white/5 hover:bg-white/10 text-[11px] text-gray-300 border border-white/10">
+                🎨 Tamil Nadu Crafts
+            </button>
+        </div>
+
+        <!-- AI Input Form -->
+        <div class="p-4 border-t border-white/10 bg-desi-cardBg">
+            <form onsubmit="handleAiSubmit(event)" class="flex gap-2">
+                <input type="text" id="aiInput" placeholder="Ask AI cultural guide..." class="flex-grow bg-desi-darkBg border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-desi-neonBlue">
+                <button type="submit" id="aiSendBtn" class="bg-gradient-to-r from-desi-neonBlue to-desi-magenta text-white px-4 rounded-xl text-xs font-semibold hover:opacity-90">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADD CULTURAL STORY MODAL -->
+    <div id="create-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-3xl p-6 border border-white/20 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeCreateModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <h3 class="text-xl font-bold text-white font-display mb-1">Add Regional Heritage Post</h3>
+            <p class="text-xs text-gray-400 mb-5">Share local cultural stories, artisan market recommendations, or fusion fashion ideas.</p>
+
+            <form onsubmit="handleNewPostSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">Entry Category</label>
+                    <select id="postCategory" class="w-full bg-desi-darkBg border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-desi-neonBlue">
+                        <option value="culture">Cultural Story / Heritage Site</option>
+                        <option value="styling">Desi Fusion Styling Guide</option>
+                        <option value="marketplace">Local Artisan Market / Shop</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">Title</label>
+                    <input type="text" id="postTitle" required placeholder="e.g., The Secret Weavers of Chanderi" class="w-full bg-desi-darkBg border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-desi-neonBlue">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-1">State / Region</label>
+                        <select id="postState" required class="w-full bg-desi-darkBg border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-desi-neonBlue">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-1">Tag / Style Badge</label>
+                        <input type="text" id="postTag" placeholder="e.g., Silk Weaving" class="w-full bg-desi-darkBg border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-desi-neonBlue">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">Image URL (Optional)</label>
+                    <input type="url" id="postImage" placeholder="https://images.unsplash.com/..." class="w-full bg-desi-darkBg border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-desi-neonBlue">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">Detailed Description / Story</label>
+                    <textarea id="postDesc" rows="4" required placeholder="Write about the history, styling tips, or bazaar location..." class="w-full bg-desi-darkBg border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-desi-neonBlue"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-desi-saffron via-desi-magenta to-desi-neonBlue text-white font-semibold py-2.5 rounded-xl text-xs hover:opacity-90 shadow-lg transition-all">
+                    Publish Community Story
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DETAIL VIEW MODAL -->
+    <div id="detail-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-2xl rounded-3xl border border-white/20 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeDetailModal()" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div id="detail-modal-body">
+                <!-- Content injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 glass-panel border border-desi-neonBlue/40 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center space-x-3 translate-y-20 opacity-0 transition-all duration-300">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-desi-neonBlue"></i>
+        <span id="toast-message" class="text-xs font-medium">Notification message</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-16 border-t border-white/10 bg-desi-darkBg/80 backdrop-blur-md py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-xs text-gray-400">
+                © 2026 <span class="text-white font-semibold">Bharat Explorer</span> — Celebrating Indian Craftsmanship, Regional Fashion & Cultural Heritage.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // State and Sample Dataset
+        const STATES = [
+            "Rajasthan", "Punjab", "Kerala", "West Bengal", "Gujarat", 
+            "Tamil Nadu", "Maharashtra", "Assam", "Kashmir", "Uttar Pradesh"
+        ];
+
+        let currentActiveTab = 'explore';
+        let selectedStateFilter = 'All';
+        let searchQuery = '';
+        let bookmarkedIds = JSON.parse(localStorage.getItem('bharat_bookmarks') || '[]');
+
+        // Initial Data Store
+        let appData = [
+            // CULTURAL STORIES
+            {
+                id: 'c1',
+                category: 'culture',
+                state: 'Rajasthan',
+                title: 'The Blue City of Jodhpur & Mehrangarh Fort',
+                tag: 'Architectural Heritage',
+                image: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
+                description: 'Surrounded by imposing fortified walls, Jodhpur showcases indigo-painted houses designed to keep interiors cool during desert summers. The iconic Mehrangarh Fort towers 400 feet above the city skyline.',
+                fullStory: 'Jodhpur’s signature blue hue originally marked Brahmin residences but was quickly adopted across the city due to indigo’s natural cooling properties and insect-repelling traits. Mehrangarh Fort, constructed around 1459 by Rao Jodha, holds intricately carved palaces like Moti Mahal and Phool Mahal.',
+                highlights: ['Indigo architecture', 'Rajput warfare history', 'Traditional Langa musician performances']
+            },
+            {
+                id: 'c2',
+                category: 'culture',
+                state: 'Kerala',
+                title: 'Kalaripayattu: The Ancient Martial Art',
+                tag: 'Living Traditions',
+                image: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=800&q=80',
+                description: 'Considered one of the oldest fighting systems in existence, Kalaripayattu synthesizes physical agility, herbal medicine, and bio-energy points (Marma).',
+                fullStory: 'Originating in medieval Kerala, Kalaripayattu blends weapons mastery with holistic body conditioning. Practitioners train in specialized pits called Kalari, using wooden sticks, curved swords, and flexible steel blades (Urumi).',
+                highlights: ['Self-defense technique', 'Marma chikitsa (healing)', 'Ritualistic temple art origins']
+            },
+            {
+                id: 'c3',
+                category: 'culture',
+                state: 'West Bengal',
+                title: 'Terracotta Temples of Bishnupur',
+                tag: 'Craft & Clay',
+                image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=800&q=80',
+                description: 'Built during the Malla dynasty, these 17th-century brick temples feature elaborate baked-clay panels depicting scenes from ancient epics and local folklore.',
+                fullStory: 'Due to the scarcity of stone in alluvial Bengal, Malla rulers utilized local red clay to craft durable terracotta tiles. Master sculptors carved intricate friezes of musicians, flora, and mythological battles into the exterior facades.',
+                highlights: ['Malla dynasty architecture', 'Detailed clay carvings', 'Baluchari silk weaving origins nearby']
+            },
+
+            // FUSION STYLING GUIDES
+            {
+                id: 's1',
+                category: 'styling',
+                state: 'Punjab',
+                title: 'Phulkari Jacket over Streetwear Denim',
+                tag: 'Gen-Z Fusion',
+                image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80',
+                description: 'Pair vibrant geometric Punjabi Phulkari embroidered waistcoats with oversized vintage wash jeans and chunky white sneakers for an urban Desi statement look.',
+                fullStory: 'Phulkari ("flower work") uses damask silk thread on coarse cotton (Khaddar). Modern styling reimagines traditional Phulkari dupattas or waistcoats as structured blazers layered over minimal monochrome inner wear.',
+                stylingTips: [
+                    'Keep top/bottom solid black or off-white to let embroidery pop.',
+                    'Accessorize with silver oxidized hoops or stacked metallic rings.',
+                    'Finish with high-top sneakers or embroidered juttis.'
+                ]
+            },
+            {
+                id: 's2',
+                category: 'styling',
+                state: 'Gujarat',
+                title: 'Ajrakh Block Print Corset & Wide-Leg Trousers',
+                tag: 'Indie Chic',
+                image: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80',
+                description: 'Combine naturally dyed indigo and madder-red Ajrakh block prints into structured corset tops paired with fluid linen trousers.',
+                fullStory: 'Ajrakh is an intricate 16-step mud-resist dyeing process practiced by the Khatri community in Kutch. Integrating these geometric grid patterns into modern tailored corsets elevates artisan heritage into high-street party wear.',
+                stylingTips: [
+                    'Layer under a oversized cropped leather or denim jacket.',
+                    'Use natural wooden or leather accessories.',
+                    'Pairs best with warm earthy makeup tones.'
+                ]
+            },
+            {
+                id: 's3',
+                category: 'styling',
+                state: 'Tamil Nadu',
+                title: 'Kanjeevaram Silk Skirt & Graphic Tee',
+                tag: 'Modern Heritage',
+                image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80',
+                description: 'Repurpose vintage golden zari Kanjeevaram silk sarees into pleated A-line midi skirts styled with tucked-in graphic t-shirts.',
+                fullStory: 'Kanchipuram silk weavers use pure mulberry silk interwoven with gold and silver zari thread. Upcycling inherited sarees into contemporary skirts allows Gen-Z fashion enthusiasts to honor family heirlooms while keeping daily outfits functional.',
+                stylingTips: [
+                    'Pair with a vintage band or typography tee.',
+                    'Add a chunky leather belt over the waistband.',
+                    'Style with doc martens or chunky boots.'
+                ]
+            },
+
+            // LOCAL MARKETPLACES
+            {
+                id: 'm1',
+                category: 'marketplace',
+                state: 'Gujarat',
+                title: 'Law Garden Night Market, Ahmedabad',
+                tag: 'Handicraft Bazaar',
+                image: 'https://images.unsplash.com/photo-1567157577867-05ccb1388e66?auto=format&fit=crop&w=800&q=80',
+                description: 'A bustling night market famous for authentic Kutchi embroidered chaniya cholis, wall hangings, mirror-work bags, and silver jewelry.',
+                fullStory: 'Located in the heart of Ahmedabad, Law Garden transforms every evening into a colorful open-air bazaar. Local tribal women and artisans sell direct-from-artisan mirror textiles and handmade lacquer art.',
+                bestFor: ['Bandhani tie-dye', 'Mirror work jackets', 'Oxidized silver chokers'],
+                address: 'Law Garden Rd, Netaji Nagar, Ellisbridge, Ahmedabad'
+            },
+            {
+                id: 'm2',
+                category: 'marketplace',
+                state: 'Kashmir',
+                title: 'Srinagar Old City Artisan Quarter',
+                tag: 'Pashmina & Woodcraft',
+                image: 'https://images.unsplash.com/photo-1598091383021-15ddea10925d?auto=format&fit=crop&w=800&q=80',
+                description: 'Wander narrow historic lanes along the Jhelum river to find master weavers crafting GI-tagged hand-spun Pashmina shawls and walnut wood carvers.',
+                fullStory: 'Srinagar’s heritage craft clusters have preserved Persian-inspired carpet weaving (Kaleen) and papier-mâché artistry for over six centuries.',
+                bestFor: ['GI Pashmina Shawls', 'Walnut Wood Boxes', 'Hand-knotted Silk Carpets'],
+                address: 'Zaina Kadal & Maharaj Gunj Bazaars, Old Srinagar'
+            }
+        ];
+
+        // Initialize App on DOM Load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderStatePills();
+            populateStateSelect();
+            renderContent();
+            updateBookmarkBadge();
+        });
+
+        // Populate State Pills Horizontal Scroll
+        function renderStatePills() {
+            const container = document.getElementById('state-pills-container');
+            const allStates = ['All', ...STATES];
+
+            container.innerHTML = allStates.map(st => `
+                <button onclick="filterByState('${st}')" 
+                    class="px-4 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
+                        selectedStateFilter === st 
+                        ? 'bg-gradient-to-r from-desi-saffron to-desi-magenta text-white font-semibold shadow-md shadow-desi-saffron/20 border border-transparent' 
+                        : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-white/10'
+                    }">
+                    ${st === 'All' ? '✨ All India' : st}
+                </button>
+            `).join('');
+        }
+
+        function populateStateSelect() {
+            const select = document.getElementById('postState');
+            select.innerHTML = STATES.map(st => `<option value="${st}">${st}</option>`).join('');
+        }
+
+        // Tab Switching Logic
+        function setActiveTab(tab) {
+            currentActiveTab = tab;
+            ['explore', 'styling', 'marketplace', 'saved'].forEach(t => {
+                const btn = document.getElementById(`nav-${t}`);
+                const sec = document.getElementById(`tab-${t}`);
+                if (t === tab) {
+                    btn?.classList.add('text-desi-neonBlue', 'bg-desi-neonBlue/10', 'border', 'border-desi-neonBlue/30');
+                    btn?.classList.remove('text-gray-300');
+                    sec?.classList.remove('hidden');
+                } else {
+                    btn?.classList.remove('text-desi-neonBlue', 'bg-desi-neonBlue/10', 'border', 'border-desi-neonBlue/30');
+                    btn?.classList.add('text-gray-300');
+                    sec?.classList.add('hidden');
+                }
+            });
+            renderContent();
+        }
+
+        // Filtering Actions
+        function filterByState(st) {
+            selectedStateFilter = st;
+            document.getElementById('selected-state-label').innerText = st === 'All' ? 'All Regions' : st;
+            renderStatePills();
+            renderContent();
+        }
+
+        function resetStateFilter() {
+            filterByState('All');
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            searchQuery = '';
+            filterByState('All');
+            setActiveTab('explore');
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            renderContent();
+        }
+
+        // Main Rendering Logic
+        function renderContent() {
+            const filtered = appData.filter(item => {
+                const matchesState = selectedStateFilter === 'All' || item.state === selectedStateFilter;
+                const matchesSearch = !searchQuery || 
+                    item.title.toLowerCase().includes(searchQuery) ||
+                    item.description.toLowerCase().includes(searchQuery) ||
+                    item.state.toLowerCase().includes(searchQuery) ||
+                    (item.tag && item.tag.toLowerCase().includes(searchQuery));
+
+                return matchesState && matchesSearch;
+            });
+
+            if (currentActiveTab === 'explore') {
+                const cultureItems = filtered.filter(i => i.category === 'culture');
+                document.getElementById('culture-grid').innerHTML = cultureItems.map(renderCardHTML).join('') || renderEmptyStateHTML('No cultural stories found.');
+            } else if (currentActiveTab === 'styling') {
+                const stylingItems = filtered.filter(i => i.category === 'styling');
+                document.getElementById('styling-grid').innerHTML = stylingItems.map(renderCardHTML).join('') || renderEmptyStateHTML('No fusion styling guides found.');
+            } else if (currentActiveTab === 'marketplace') {
+                const marketItems = filtered.filter(i => i.category === 'marketplace');
+                document.getElementById('marketplace-grid').innerHTML = marketItems.map(renderCardHTML).join('') || renderEmptyStateHTML('No local markets found.');
+            } else if (currentActiveTab === 'saved') {
+                const savedItems = appData.filter(i => bookmarkedIds.includes(i.id));
+                const savedContainer = document.getElementById('saved-grid');
+                const emptyState = document.getElementById('saved-empty-state');
+
+                if (savedItems.length === 0) {
+                    savedContainer.innerHTML = '';
+                    emptyState.classList.remove('hidden');
+                } else {
+                    emptyState.classList.add('hidden');
+                    savedContainer.innerHTML = savedItems.map(renderCardHTML).join('');
+                }
+            }
+        }
+
+        // Card HTML Template Generator
+        function renderCardHTML(item) {
+            const isBookmarked = bookmarkedIds.includes(item.id);
+
+            return `
+                <div class="glass-panel-interactive rounded-2xl overflow-hidden flex flex-col h-full group">
+                    <div class="relative h-48 w-full overflow-hidden bg-desi-darkBg">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/131B2E/00F0FF?text=Bharat+Explorer'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-desi-darkBg via-transparent to-transparent"></div>
+                        
+                        <!-- State Badge -->
+                        <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md border border-white/20 text-white text-[11px] font-medium px-2.5 py-1 rounded-full">
+                            <i class="fa-solid fa-location-dot text-desi-saffron mr-1"></i>${item.state}
+                        </span>
+
+                        <!-- Bookmark Button -->
+                        <button onclick="toggleBookmark(event, '${item.id}')" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:scale-110 transition-all">
+                            <i class="fa-${isBookmarked ? 'solid text-desi-magenta' : 'regular'} fa-bookmark"></i>
+                        </button>
+
+                        <span class="absolute bottom-2 left-3 text-[10px] uppercase font-bold tracking-wider text-desi-neonBlue">
+                            ${item.tag}
+                        </span>
+                    </div>
+
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="text-base font-bold text-white font-display mb-2 group-hover:text-desi-neonBlue transition-colors">
+                            ${item.title}
+                        </h3>
+                        <p class="text-gray-400 text-xs line-clamp-3 mb-4 flex-grow">
+                            ${item.description}
+                        </p>
+
+                        <div class="pt-3 border-t border-white/5 flex items-center justify-between">
+                            <button onclick="openDetailModal('${item.id}')" class="text-xs font-semibold text-desi-saffron hover:text-desi-gold flex items-center gap-1 transition-colors">
+                                Explore Details <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                            <span class="text-[10px] text-gray-500 capitalize">${item.category}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderEmptyStateHTML(message) {
+            return `
+                <div class="col-span-full text-center py-12 glass-panel rounded-2xl">
+                    <i class="fa-solid fa-compass-drafting text-3xl text-gray-600 mb-2"></i>
+                    <p class="text-xs text-gray-400 font-medium">${message}</p>
+                </div>
+            `;
+        }
+
+        // Bookmark Toggle Logic
+        function toggleBookmark(e, id) {
+            e.stopPropagation();
+            if (bookmarkedIds.includes(id)) {
+                bookmarkedIds = bookmarkedIds.filter(bId => bId !== id);
+                showToast('Removed from Saved Vault', 'info');
+            } else {
+                bookmarkedIds.push(id);
+                showToast('Saved to your Vault!', 'success');
+            }
+            localStorage.setItem('bharat_bookmarks', JSON.stringify(bookmarkedIds));
+            updateBookmarkBadge();
+            renderContent();
+        }
+
+        function clearAllBookmarks() {
+            if (confirm("Are you sure you want to clear all bookmarked items?")) {
+                bookmarkedIds = [];
+                localStorage.setItem('bharat_bookmarks', JSON.stringify(bookmarkedIds));
+                updateBookmarkBadge();
+                renderContent();
+                showToast('Vault cleared', 'info');
+            }
+        }
+
+        function updateBookmarkBadge() {
+            const badge = document.getElementById('bookmark-badge');
+            if (bookmarkedIds.length > 0) {
+                badge.innerText = bookmarkedIds.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // Open Detail Modal
+        function openDetailModal(id) {
+            const item = appData.find(i => i.id === id);
+            if (!item) return;
+
+            const modalBody = document.getElementById('detail-modal-body');
+            modalBody.innerHTML = `
+                <div class="relative h-64 sm:h-80 w-full overflow-hidden">
+                    <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-desi-darkBg via-desi-darkBg/40 to-transparent"></div>
+                    <div class="absolute bottom-4 left-6 right-6">
+                        <span class="bg-desi-saffron text-black text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-2 inline-block">
+                            ${item.state} • ${item.tag}
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-bold font-display text-white">${item.title}</h2>
+                    </div>
+                </div>
+
+                <div class="p-6 space-y-4">
+                    <p class="text-sm text-gray-300 leading-relaxed">${item.fullStory || item.description}</p>
+
+                    ${item.highlights ? `
+                        <div class="glass-panel p-4 rounded-xl border-white/10">
+                            <h4 class="text-xs font-bold text-desi-neonBlue uppercase tracking-wider mb-2">Cultural Key Highlights</h4>
+                            <ul class="list-disc list-inside text-xs text-gray-300 space-y-1">
+                                ${item.highlights.map(h => `<li>${h}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+
+                    ${item.stylingTips ? `
+                        <div class="glass-panel p-4 rounded-xl border-white/10">
+                            <h4 class="text-xs font-bold text-desi-magenta uppercase tracking-wider mb-2">Gen-Z Styling Recommendations</h4>
+                            <ul class="list-disc list-inside text-xs text-gray-300 space-y-1">
+                                ${item.stylingTips.map(t => `<li>${t}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+
+                    ${item.bestFor ? `
+                        <div class="glass-panel p-4 rounded-xl border-white/10">
+                            <h4 class="text-xs font-bold text-desi-gold uppercase tracking-wider mb-2">Artisan Specialties</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${item.bestFor.map(b => `<span class="bg-white/10 text-xs px-2.5 py-1 rounded-lg text-gray-200">${b}</span>`).join('')}
+                            </div>
+                            ${item.address ? `<p class="text-[11px] text-gray-400 mt-3"><i class="fa-solid fa-map-marker-alt text-desi-saffron mr-1"></i>${item.address}</p>` : ''}
+                        </div>
+                    ` : ''}
+
+                    <div class="pt-4 flex justify-between items-center border-t border-white/10">
+                        <button onclick="askAiAboutItem('${item.title}')" class="bg-gradient-to-r from-desi-neonBlue/20 to-desi-magenta/20 border border-desi-neonBlue/40 text-white text-xs px-4 py-2 rounded-xl flex items-center gap-2 hover:bg-desi-neonBlue/30">
+                            <i class="fa-solid fa-wand-magic-sparkles text-desi-neonBlue"></i> Ask AI More About This
+                        </button>
+                        <button onclick="closeDetailModal()" class="text-xs text-gray-400 hover:text-white">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('detail-modal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').classList.add('hidden');
+        }
+
+        // Post Modal Logic
+        function openCreateModal() {
+            document.getElementById('create-modal').classList.remove('hidden');
+        }
+
+        function closeCreateModal() {
+            document.getElementById('create-modal').classList.add('hidden');
+        }
+
+        function handleNewPostSubmit(e) {
+            e.preventDefault();
+            const category = document.getElementById('postCategory').value;
+            const title = document.getElementById('postTitle').value;
+            const state = document.getElementById('postState').value;
+            const tag = document.getElementById('postTag').value || 'Heritage Entry';
+            const image = document.getElementById('postImage').value || 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80';
+            const desc = document.getElementById('postDesc').value;
+
+            const newItem = {
+                id: 'custom_' + Date.now(),
+                category: category,
+                state: state,
+                title: title,
+                tag: tag,
+                image: image,
+                description: desc,
+                fullStory: desc
+            };
+
+            appData.unshift(newItem);
+            closeCreateModal();
+            renderContent();
+            showToast('Community cultural story added!', 'success');
+
+            // Reset form
+            e.target.reset();
+        }
+
+        // AI Assistant Logic (Gemini Integration)
+        function toggleAiAssistant() {
+            const aiModal = document.getElementById('ai-modal');
+            aiModal.classList.toggle('translate-x-full');
+        }
+
+        function askAiAboutItem(title) {
+            closeDetailModal();
+            toggleAiAssistant();
+            const input = document.getElementById('aiInput');
+            input.value = `Tell me more about the history and modern fashion/travel relevance of: ${title}`;
+            handleAiSubmit(new Event('submit'));
+        }
+
+        function askQuickAi(query) {
+            const input = document.getElementById('aiInput');
+            input.value = query;
+            handleAiSubmit(new Event('submit'));
+        }
+
+        async function handleAiSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('aiInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const chatContainer = document.getElementById('ai-chat-messages');
+
+            // Append User Message
+            chatContainer.innerHTML += `
+                <div class="flex justify-end">
+                    <div class="bg-gradient-to-r from-desi-saffron/20 to-desi-magenta/20 border border-desi-saffron/30 rounded-2xl p-3 text-white max-w-[85%] text-xs">
+                        ${escapeHtml(message)}
+                    </div>
+                </div>
+            `;
+            input.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Append Loading Indicator
+            const loadingId = 'loading_' + Date.now();
+            chatContainer.innerHTML += `
+                <div id="${loadingId}" class="flex justify-start">
+                    <div class="glass-panel rounded-2xl p-3 text-gray-400 text-xs flex items-center space-x-2">
+                        <i class="fa-solid fa-spinner animate-spin text-desi-neonBlue"></i>
+                        <span>Consulting cultural knowledge base...</span>
+                    </div>
+                </div>
+            `;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Gemini API Call
+            try {
+                const systemPrompt = "You are 'Bharat Explorer AI', an enthusiastic expert on Indian culture, regional history, handicraft bazaars, and Gen-Z traditional fashion fusion. Keep answers concise, energetic, nicely formatted with emojis, and visually clear.";
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: message }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
+                    })
+                });
+
+                const data = await response.json();
+                document.getElementById(loadingId)?.remove();
+
+                if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+                    const replyText = data.candidates[0].content.parts[0].text;
+                    chatContainer.innerHTML += `
+                        <div class="flex justify-start">
+                            <div class="glass-panel border-desi-neonBlue/30 rounded-2xl p-3 text-gray-200 max-w-[90%] text-xs leading-relaxed space-y-2">
+                                ${formatAiMarkdown(replyText)}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    throw new Error("Invalid AI response");
+                }
+            } catch (err) {
+                document.getElementById(loadingId)?.remove();
+                chatContainer.innerHTML += `
+                    <div class="flex justify-start">
+                        <div class="glass-panel border-rose-500/30 rounded-2xl p-3 text-rose-300 max-w-[85%] text-xs">
+                            🙏 Apologies, I could not connect to the cultural network right now. Please try again!
+                        </div>
+                    </div>
+                `;
+            }
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Helper Utilities
+        function formatAiMarkdown(text) {
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-bold">$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em class="text-gray-300">$1</em>')
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, '<br>');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMessage.innerText = message;
+            if (type === 'success') {
+                toastIcon.className = 'fa-solid fa-circle-check text-desi-neonBlue';
+            } else {
+                toastIcon.className = 'fa-solid fa-circle-info text-desi-saffron';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
